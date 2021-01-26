@@ -2,28 +2,28 @@ import sys
 def main():
     input()
     ids = input().split(",")
-    print(chineseRem(ids))
+    print(chinese_rem(ids))
 
 
 def mod(a, m):
     return (a % m + m) % m
 
 
-def extGcd(a, b):
+def ext_gcd(a, b):
     if b == 0:
         return a, 1, 0
-    d, q, p = extGcd(b, a%b)
+    d, q, p = ext_gcd(b, a%b)
     q -= a//b * p
     return d, p, q
 
-def chineseRem(ids):
+def chinese_rem(ids):
     r, m = 0, 1
     for i, cur in enumerate(ids):
         if cur == "x":
             continue
         mi = int(cur)
         bi = mi - i
-        d, p, q = extGcd(m, mi)
+        d, p, q = ext_gcd(m, mi)
 
         if (bi - i - r) % d != 0:
             return 0, -1

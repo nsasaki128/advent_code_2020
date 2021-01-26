@@ -1,8 +1,6 @@
 # Advent of Code 2020 Writeup
 解いてみたので雑なWriteupを残しておく。
 
-最初スネークケースを使っていたが、pythonってキャメルケースだったかと思い、途中からキャメルケースに変更。
-
 ## Day 1: Report Repair
 単純なループの計算
 ### Part One

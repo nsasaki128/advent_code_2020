@@ -3,13 +3,13 @@ def main():
     joltages = list()
     joltages.append(0)
     count = 111
-    maxJoltage = 0
+    max_joltage = 0
     for _ in range(count):
         cur = int(input())
-        maxJoltage = max(maxJoltage, cur)
+        max_joltage = max(max_joltage, cur)
         joltages.append(cur)
 
-    joltages.append(maxJoltage+3)
+    joltages.append(max_joltage+3)
     joltages.sort()
     diffs = [0, 0, 0, 0]
     for i in range(count+1):

@@ -1,24 +1,24 @@
 def main():
     count = 562
     mask = ""
-    memDict = dict()
+    mem_dict = dict()
 
     for _ in range(count):
         cur = input().split()
         if cur[0] == "mask":
             mask = cur[2]
             continue
-        memPos = int(cur[0][4:-1])
-        memDict[memPos] = updateMem(int(cur[2]), mask)
+        mem_pos = int(cur[0][4:-1])
+        mem_dict[mem_pos] = update_mem(int(cur[2]), mask)
 
-    print(sum(memDict.values()))
+    print(sum(mem_dict.values()))
 
-maskLen = 36
-def updateMem(mem: int, mask: str) -> int:
-    for i in range(maskLen):
-        if mask[maskLen-i-1] == "1":
+MASK_LEN = 36
+def update_mem(mem: int, mask: str) -> int:
+    for i in range(MASK_LEN):
+        if mask[MASK_LEN-i-1] == "1":
             mem |= 1 << i
-        if mask[maskLen-i-1] == "0":
+        if mask[MASK_LEN-i-1] == "0":
             mem &= ~(1 << i)
     return mem
 

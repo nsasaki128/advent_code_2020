@@ -1,49 +1,49 @@
 def main():
     count = 267
-    validRange = list()
-    nearbyProcess = False
-    myProcess = False
-    invalidSeats = list()
+    valid_range = list()
+    nearby_process = False
+    my_process = False
+    invalid_seats = list()
     classes = list()
 
     for _ in range(count):
         p = input()
-        if nearbyProcess:
+        if nearby_process:
             seats = list(map(int, p.split(",")))
             for seat in seats:
                 invalid = True
-                for l, r in validRange:
+                for l, r in valid_range:
                     if l <= seat <= r:
                         invalid = False
                         break
                 if invalid:
-                    invalidSeats.append(seat)
+                    invalid_seats.append(seat)
             continue
 
         if p == "":
             continue
 
         if p.startswith("nearby tickets"):
-            nearbyProcess = True
-            myProcess = False
+            nearby_process = True
+            my_process = False
             continue
         if p.startswith("your ticket"):
-            myProcess = True
+            my_process = True
             continue
 
-        if myProcess:
+        if my_process:
             continue
 
         rules = p.split(":")[1].split()
-        validRange.append(extractRule(rules[0]))
-        validRange.append(extractRule(rules[2]))
+        valid_range.append(extract_rule(rules[0]))
+        valid_range.append(extract_rule(rules[2]))
 
 
-    print(validRange)
-    print(invalidSeats)
-    print(sum(invalidSeats))
+    print(valid_range)
+    print(invalid_seats)
+    print(sum(invalid_seats))
 
-def extractRule(rule: str) -> (int, int):
+def extract_rule(rule: str) -> (int, int):
     lr = rule.split("-")
     return (int(lr[0]), int(lr[1]))
 

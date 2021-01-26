@@ -3,18 +3,18 @@ def main():
     keep = 25
     count = 1000
     nums = deque()
-    allNums = list()
+    all_nums = list()
     ans = 0
     find = False
     for i in range(count):
         cur = int(input())
-        allNums.append(cur)
+        all_nums.append(cur)
         if i < keep:
             nums.append(cur)
             continue
         if i > keep:
             nums.popleft()
-        if not findNum(nums, cur) and not find:
+        if not find_num(nums, cur) and not find:
             ans = cur
             find = True
         nums.append(cur)
@@ -23,10 +23,10 @@ def main():
     print(ans)
     print()
     print("Q2: answer:")
-    print(findNumSum(allNums, ans))
+    print(find_num_sum(all_nums, ans))
 
 
-def findNum(nums, target) -> bool:
+def find_num(nums, target) -> bool:
     possible = set()
     for num in nums:
         if num in possible:
@@ -34,7 +34,7 @@ def findNum(nums, target) -> bool:
         possible.add(target-num)
     return False
 
-def findNumSum(nums, target) -> int:
+def find_num_sum(nums, target) -> int:
     head, tail = 0, 0
     cur = nums[0]
     while head <= tail:

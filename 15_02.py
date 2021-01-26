@@ -1,23 +1,23 @@
-init = 0
+INIT = 0
 def main():
     seeds = list(map(int, input().split(",")))
     count = 30000000
-    spokenNums = dict()
+    spoken_nums = dict()
     i = 0
     prev = 0
     for seed in seeds:
-        spokenNums[seed] = i
+        spoken_nums[seed] = i
         prev = seed
         i += 1
 
     cur = 0
 
     while i < count:
-        if prev not in spokenNums:
-            cur = init
+        if prev not in spoken_nums:
+            cur = INIT
         else:
-            cur = i - spokenNums[prev] - 1
-        spokenNums[prev] = i - 1
+            cur = i - spoken_nums[prev] - 1
+        spoken_nums[prev] = i - 1
         prev = cur
         i += 1
 

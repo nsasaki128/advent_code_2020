@@ -12,7 +12,7 @@ def main():
             continue
         if i > keep:
             nums.popleft()
-        if not findNum(nums, cur) and not find:
+        if not find_num(nums, cur) and not find:
             ans = cur
             find = True
         nums.append(cur)
@@ -20,7 +20,7 @@ def main():
     print(ans)
 
 
-def findNum(nums, target) -> bool:
+def find_num(nums, target) -> bool:
     possible = set()
     for num in nums:
         if num in possible:

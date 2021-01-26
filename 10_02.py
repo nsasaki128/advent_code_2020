@@ -3,17 +3,17 @@ def main():
     joltages = list()
     joltages.append(0)
     count = 111
-    maxJoltage = 0
+    max_joltage = 0
     for _ in range(count):
         cur = int(input())
-        maxJoltage = max(maxJoltage, cur)
+        max_joltage = max(max_joltage, cur)
         joltages.append(cur)
 
-    joltages.append(maxJoltage+3)
+    joltages.append(max_joltage+3)
     joltages.sort()
 
     # approaches[0, 1] is just dummy for avoiding if statement
-    approaches = [0 for _ in range(maxJoltage+6)]
+    approaches = [0 for _ in range(max_joltage+6)]
     approaches[2] = 1
     for i in range(count+1):
         cur = joltages[i+1] + 2

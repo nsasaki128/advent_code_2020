@@ -17,9 +17,9 @@ def calc(tok, num):
         if tok[i] == "*" or tok[i] == "+":
             op = tok[i]
         elif tok[i] == "(":
-            res, nextI = calc(tok, i+1)
+            res, next_i = calc(tok, i+1)
             cur = operation(op, cur, res)
-            i = nextI
+            i = next_i
         elif tok[i] == ")":
             return cur, i
         elif tok[i].isdigit():

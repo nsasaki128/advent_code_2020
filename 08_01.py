@@ -2,11 +2,11 @@ def main():
     count = 623
     op, val = list(), list()
     for _ in range(count):
-        curOp, curVal = input().split()
-        op.append(curOp)
-        val.append(int(curVal))
+        cur_op, cur_val = input().split()
+        op.append(cur_op)
+        val.append(int(cur_val))
     seen = [False for _ in range(count)]
-    accNum = 0
+    acc_num = 0
     pos = 0
 
     while True:
@@ -17,11 +17,11 @@ def main():
             pos += val[pos]
             continue
         if op[pos] == "acc":
-            accNum += val[pos]
+            acc_num += val[pos]
         # both acc and nop increase position
         pos += 1
 
-    print(accNum)
+    print(acc_num)
 
 
 if __name__ == '__main__':

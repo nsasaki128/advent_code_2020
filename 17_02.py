@@ -3,21 +3,21 @@ def main():
     repeat = 6
     total = 2*(repeat+1) + count
     cube = [[[[0 for _ in range(total)] for _ in range(total)] for _ in range(total)] for _ in range(total)]
-    centerZW = total//2
-    xyStart = centerZW - count//2
+    center_z_w = total//2
+    xy_start = center_z_w - count//2
 
     for i in range(count):
         p = input()
         for j in range(len(p)):
-            cube[xyStart + i][xyStart + j][centerZW][centerZW] = 1 if p[j] == "#" else 0
+            cube[xy_start + i][xy_start + j][center_z_w][center_z_w] = 1 if p[j] == "#" else 0
 
     for _ in range(repeat):
-        print(countCube(cube))
-        cube = createNewCube(cube)
+        print(count_cube(cube))
+        cube = create_new_cube(cube)
 
-    print(countCube(cube))
+    print(count_cube(cube))
 
-def createNewCube(prev):
+def create_new_cube(prev):
     cube = [[[[0 for _ in range(len(prev))] for _ in range(len(prev))] for _ in range(len(prev))] for _ in range(len(prev))]
 
     for x in range(1, len(cube)-1):
@@ -38,7 +38,7 @@ def createNewCube(prev):
                         cube[x][y][z][w] = 1
     return cube
 
-def countCube(cube):
+def count_cube(cube):
     ans = 0
     for world in cube:
         for plane in world:

@@ -3,8 +3,8 @@ def main():
     ans = 0
     for i in range(count):
         num, char, password = input().split()
-        minNum, maxNum = map(int, num.split("-"))
-        if minNum <= password.count(char[0]) <= maxNum:
+        min_num, max_num = map(int, num.split("-"))
+        if min_num <= password.count(char[0]) <= max_num:
             ans += 1
     print(ans)
 

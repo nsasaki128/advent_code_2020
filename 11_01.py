@@ -12,15 +12,15 @@ def main():
 
     while True:
         repeat += 1
-        successor = seatChange(matrix)
-        if isSame(matrix, successor):
+        successor = seat_change(matrix)
+        if is_same(matrix, successor):
             break
         matrix = successor
 
     print(repeat)
-    print(countEmptySeat(matrix))
+    print(count_empty_seat(matrix))
 
-def isSame(before, after):
+def is_same(before, after):
     for i in range(1, len(before)-1):
         for j in range(1, len(before[i])-1):
             if after[i][j] != before[i][j]:
@@ -28,7 +28,7 @@ def isSame(before, after):
     return True
 
 
-def seatChange(matrix):
+def seat_change(matrix):
     result = deepcopy(matrix)
     adj = [[-1, -1], [-1, 0], [-1, 1],
             [0, -1], [0, 1],
@@ -45,18 +45,18 @@ def seatChange(matrix):
                 if count >= 4:
                     result[i][j] = "L"
             if cur == "L":
-                isAdjEmpty = True
+                is_adj_empty = True
                 for n in adj:
                     if matrix[i+n[0]][j+n[1]] == "#":
-                        isAdjEmpty = False
+                        is_adj_empty = False
                         continue
-                if isAdjEmpty:
+                if is_adj_empty:
                     result[i][j] = "#"
 
     return result
 
 
-def countEmptySeat(matrix):
+def count_empty_seat(matrix):
     ans = 0
     for row in matrix:
         ans += row.count("#")

@@ -1,9 +1,9 @@
 import re
 def main():
     count = 135#6
-    checkCount = 616-count-1
+    check_count = 616-count-1
     rules = dict()
-    inDict = dict()
+    in_dict = dict()
     values = set()
 
     for _ in range(count):
@@ -22,61 +22,61 @@ def main():
             for x in rs:
                 values.add(x)
                 cur.append(x)
-                if not x in inDict:
-                    inDict[x] = set()
-                inDict[x].add(i)
+                if not x in in_dict:
+                    in_dict[x] = set()
+                in_dict[x].add(i)
             rules[i].append(cur)
 
-    sortedList = topologicalSort(inDict, values)
-    regexRule = createRegexRule(sortedList, rules)
-    pattern = re.compile(regexRule)
+    sorted_list = topological_sort(in_dict, values)
+    regex_rule = create_regex_rule(sorted_list, rules)
+    pattern = re.compile(regex_rule)
     input()
     ans = 0
     matches = list()
-    for _ in range(checkCount):
+    for _ in range(check_count):
         ans += 1 if pattern.fullmatch(input()) else 0
     print(ans)
 
-def topologicalSort(inDict, values):
-    sortedSet = set()
-    sortedList = list()
-    while inDict:
-        curIn = set()
-        removeSet = set()
-        for k in inDict.keys():
-            curIn.add(k)
+def topological_sort(in_dict, values):
+    sorted_set = set()
+    sorted_list = list()
+    while in_dict:
+        cur_in = set()
+        remove_set = set()
+        for k in in_dict.keys():
+            cur_in.add(k)
         for v in values:
-            if v not in curIn:
-                removeSet.add(v)
-        for v in removeSet:
+            if v not in cur_in:
+                remove_set.add(v)
+        for v in remove_set:
             values.discard(v)
-            if v not in sortedSet:
-                sortedList.append(v)
-                sortedSet.add(v)
-            for k, vs in inDict.items():
+            if v not in sorted_set:
+                sorted_list.append(v)
+                sorted_set.add(v)
+            for k, vs in in_dict.items():
                 if v in vs:
-                    inDict[k].discard(v)
-        for k in curIn:
-            if len(inDict[k]) == 0:
-                inDict.pop(k)
-                if k not in sortedSet:
-                    sortedList.append(k)
-                    sortedSet.add(k)
-    return sortedList
+                    in_dict[k].discard(v)
+        for k in cur_in:
+            if len(in_dict[k]) == 0:
+                in_dict.pop(k)
+                if k not in sorted_set:
+                    sorted_list.append(k)
+                    sorted_set.add(k)
+    return sorted_list
 
-def createRegexRule(sortedList, rules):
-    regexRules = dict()
-    for v in reversed(sortedList):
+def create_regex_rule(sorted_list, rules):
+    regex_rules = dict()
+    for v in reversed(sorted_list):
         # terminal symbol
         if type(rules[v][0]) is str:
-            regexRules[v] = rules[v][0]
+            regex_rules[v] = rules[v][0]
             continue
-        # no OR
+        # no _o_r
         if len(rules[v]) == 1:
             cur = ""
             for k in rules[v][0]:
-                cur += regexRules[k]
-            regexRules[v] = cur
+                cur += regex_rules[k]
+            regex_rules[v] = cur
             continue
 
         cur = "("
@@ -84,10 +84,10 @@ def createRegexRule(sortedList, rules):
             if i != 0:
                 cur += "|"
             for k in rules[v][i]:
-                cur += regexRules[k]
+                cur += regex_rules[k]
         cur += ")"
-        regexRules[v] = cur
-    return regexRules["0"]
+        regex_rules[v] = cur
+    return regex_rules["0"]
 
 if __name__ == '__main__':
 	main()

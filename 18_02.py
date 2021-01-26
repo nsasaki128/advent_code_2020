@@ -1,35 +1,35 @@
-nodeNum = "num"
+node_num = "num"
 class Node:
-    def __init__(self, nodeType, val, l, r):
-        self.nodeType = nodeType
+    def __init__(self, node_type, val, l, r):
+        self.node_type = node_type
         self.val = val
         self.l = l
         self.r = r
 
     def calc(self):
-        if self.nodeType == nodeNum:
+        if self.node_type == node_num:
             return self.val
-        if self.nodeType == "*":
+        if self.node_type == "*":
             return self.l.calc() * self.r.calc()
-        if self.nodeType == "+":
+        if self.node_type == "+":
             return self.l.calc() + self.r.calc()
         return 0
 
-    def debugPrint(self, ch):
-        if self.kind == nodeNum:
-            print(f"{ch}└ type: {self.nodeType}, val: {self.val}")
+    def debug_print(self, ch):
+        if self.kind == node_num:
+            print(f"{ch}└ type: {self.node_type}, val: {self.val}")
         else:
-            print(f"{ch}├ type: {self.nodeType}, val: {self.val}")
+            print(f"{ch}├ type: {self.node_type}, val: {self.val}")
         if self.l:
             if self.r:
-                print(f"{ch}├ Left")
-                self.l.debugPrint(ch+"|")
+                print(f"{ch}├ _left")
+                self.l.debug_print(ch+"|")
             else:
-                print(f"{ch}└ Left")
-                self.l.debugPrint(ch+" ")
+                print(f"{ch}└ _left")
+                self.l.debug_print(ch+" ")
         if self.r:
-            print(f"{ch}└ Right")
-            self.r.debugPrint(ch+" ")
+            print(f"{ch}└ _right")
+            self.r.debug_print(ch+" ")
 
 
 def main():
@@ -39,7 +39,7 @@ def main():
     for _ in range(count):
         p = tokenize(input())
         n, _ = mul(p, 0)
-        # n.debugPrint("")
+        # n.debug_print("")
         ans += n.calc()
     print(ans)
 
@@ -48,9 +48,9 @@ def add(tok, pos):
     l, i = primary(tok, pos)
     while i < len(tok):
         if tok[i] == "+":
-            r, nextI = primary(tok, i+1)
+            r, next_i = primary(tok, i+1)
             l = Node("+", l.val+r.val, l, r)
-            i = nextI
+            i = next_i
         else:
             return l, i
     return l, i
@@ -60,9 +60,9 @@ def mul(tok, pos):
     l, i = add(tok, pos)
     while i < len(tok):
         if tok[i] == "*":
-            r, nextI = add(tok, i+1)
+            r, next_i = add(tok, i+1)
             l = Node("*", l.val*r.val, l, r)
-            i = nextI
+            i = next_i
         else:
             return l, i
     return l, i
@@ -72,12 +72,12 @@ def primary(tok, pos):
     i = pos
     while i < len(tok):
         if tok[i].isdigit():
-            return Node(nodeNum, int(tok[i]), None, None), i+1
+            return Node(node_num, int(tok[i]), None, None), i+1
         if tok[i] == "(":
-            n, nextI = mul(tok, i+1)
-            if tok[nextI] != ")":
+            n, next_i = mul(tok, i+1)
+            if tok[next_i] != ")":
                 print("error")
-            return n, nextI+1
+            return n, next_i+1
         i += 1
     return None, len(tok)
 

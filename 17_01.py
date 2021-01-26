@@ -3,16 +3,16 @@ def main():
     repeat = 6
     total = 2*(repeat+1) + count
     cube = [[["." for _ in range(total)] for _ in range(total)] for _ in range(total)]
-    centerZ = total//2
-    xyStart = centerZ - count//2
+    center_z = total//2
+    xy_start = center_z - count//2
 
     for i in range(count):
         p = input()
         for j in range(len(p)):
-            cube[xyStart + i][xyStart + j][centerZ] = p[j]
+            cube[xy_start + i][xy_start + j][center_z] = p[j]
 
     for _ in range(repeat):
-        cube = createNewCube(cube)
+        cube = create_new_cube(cube)
 
     ans = 0
     for plane in cube:
@@ -22,7 +22,7 @@ def main():
                     ans += 1
     print(ans)
 
-def createNewCube(prev):
+def create_new_cube(prev):
     cube = [[["." for _ in range(len(prev))] for _ in range(len(prev))] for _ in range(len(prev))]
 
     for x in range(1, len(cube)-1):

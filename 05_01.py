@@ -3,19 +3,19 @@ def main():
     count = 839
     ans = 0
     for _ in range(count):
-        cur = getCount(input())
+        cur = get_count(input())
         ans = max(ans, cur)
     print(ans)
 
-def getCount(seat: str) -> int:
-    rowNum = 7
-    colNum = 10
+def get_count(seat: str) -> int:
+    row_num = 7
+    col_num = 10
     row = 0
     col = 0
-    for i in range(rowNum):
+    for i in range(row_num):
         if seat[i] == "B":
             row += 1 << (6 - i)
-    for j in range(rowNum, colNum):
+    for j in range(row_num, col_num):
         if seat[j] == "R":
             col += 1 << (9 - j)
     return 8*row + col

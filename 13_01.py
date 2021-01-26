@@ -3,22 +3,22 @@ def main():
     t = int(input())
     ids = input().split(",")
 
-    ansTime = sys.maxsize
-    ansId = 0
+    ans_time = sys.maxsize
+    ans_id = 0
 
     for cur in ids:
         if not cur.isnumeric():
             continue
         i = int(cur)
-        curAnsTime = i * ( ( (t//i) + 1) ) if t%i != 0 else t
+        cur_ans_time = i * ( ( (t//i) + 1) ) if t%i != 0 else t
 
-        if curAnsTime < ansTime:
-            ansTime = curAnsTime
-            ansId = i
+        if cur_ans_time < ans_time:
+            ans_time = cur_ans_time
+            ans_id = i
 
-    print(f"time: {ansTime}")
-    print(f"id: {ansId}")
-    print(f"ans: {(ansTime - t) * ansId}")
+    print(f"time: {ans_time}")
+    print(f"id: {ans_id}")
+    print(f"ans: {(ans_time - t) * ans_id}")
 
 
 

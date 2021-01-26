@@ -4,9 +4,9 @@ def main():
     for i in range(count):
         num, char, password = input().split()
         left, right = map(int, num.split("-"))
-        isLeft, isRight = password[left-1] == char[0], password[right-1] == char[0]
+        is_left, is_right = password[left-1] == char[0], password[right-1] == char[0]
 
-        if isLeft ^ isRight:
+        if is_left ^ is_right:
             ans += 1
     print(ans)
 

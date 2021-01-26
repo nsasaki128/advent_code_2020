@@ -1,62 +1,63 @@
 from collections import defaultdict
 def main():
-    tileLen = 10
+    tile_len = 10
     count = 144
     tiles = list()
-    edgeTileNames = dict()
+    edge_tile_names = dict()
 
     for i in range(count):
         name = int(input().split()[1][:-1])
-        curTile = list()
-        for _ in range(tileLen):
+        cur_tile = list()
+        for _ in range(tile_len):
             tile = list(input())
-            curTile.append(tile)
-        tiles.append(curTile)
+            cur_tile.append(tile)
+        tiles.append(cur_tile)
 
         le, re = list(), list()
-        for j in range(tileLen):
-            le.append(curTile[j][0])
-            re.append(curTile[j][-1])
-        t = "".join(curTile[0])
-        b = "".join(curTile[-1])
+        for j in range(tile_len):
+            le.append(cur_tile[j][0])
+            re.append(cur_tile[j][-1])
+        t = "".join(cur_tile[0])
+        b = "".join(cur_tile[-1])
         l = "".join(le)
         r = "".join(re)
-        rt = "".join(reversed(curTile[0]))
-        rb = "".join(reversed(curTile[-1]))
+        rt = "".join(reversed(cur_tile[0]))
+        rb = "".join(reversed(cur_tile[-1]))
         rl = "".join(reversed(le))
         rr = "".join(reversed(re))
-        curEdges = list()
-        curEdges.append(t)
-        curEdges.append(b)
-        curEdges.append(l)
-        curEdges.append(r)
-        curEdges.append(rt)
-        curEdges.append(rb)
-        curEdges.append(rl)
-        curEdges.append(rr)
-        for e in curEdges:
-            if e not in edgeTileNames:
-                edgeTileNames[e] = set()
-            edgeTileNames[e].add(name)
+        cur_edges = list()
+        cur_edges.append(t)
+        cur_edges.append(b)
+        cur_edges.append(l)
+        cur_edges.append(r)
+        cur_edges.append(rt)
+        cur_edges.append(rb)
+        cur_edges.append(rl)
+        cur_edges.append(rr)
+        for e in cur_edges:
+            if e not in edge_tile_names:
+                edge_tile_names[e] = set()
+            edge_tile_names[e].add(name)
 
         input()
 
-    aloneEdges = defaultdict(int)
-    for vs in edgeTileNames.values():
+    alone_edges = defaultdict(int)
+    for vs in edge_tile_names.values():
         if len(vs) != 1:
             continue
         for v in vs:
-            aloneEdges[v] += 1
+            alone_edges[v] += 1
 
     ans = 1
-    for k, v in aloneEdges.items():
+    for k, v in alone_edges.items():
         if v == 4:
             print(k)
             ans *= k
 
-    print(aloneEdges)
+    print(alone_edges)
     print(ans)
 
 
 if __name__ == '__main__':
-	main()
+    main()
+

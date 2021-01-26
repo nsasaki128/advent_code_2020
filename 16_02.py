@@ -1,107 +1,107 @@
 import copy
 def main():
     count = 267
-    validRange = list()
-    nearbyProcess = False
-    myProcess = False
-    checkPos = set()
-    nearbySeats = list()
-    mySeats = list()
+    valid_range = list()
+    nearby_process = False
+    my_process = False
+    check_pos = set()
+    nearby_seats = list()
+    my_seats = list()
 
     for _ in range(count):
         p = input()
-        if nearbyProcess:
+        if nearby_process:
             seats = list(map(int, p.split(",")))
-            nearbySeats.append(seats)
+            nearby_seats.append(seats)
             continue
 
         if p == "":
             continue
 
         if p.startswith("nearby tickets"):
-            nearbyProcess = True
-            myProcess = False
+            nearby_process = True
+            my_process = False
             continue
         if p.startswith("your ticket"):
-            myProcess = True
+            my_process = True
             continue
 
-        if myProcess:
-            mySeats = list(map(int, p.split(",")))
+        if my_process:
+            my_seats = list(map(int, p.split(",")))
             continue
 
-        validRange.append(extractRule(p))
+        valid_range.append(extract_rule(p))
 
 
     # Ignore invalid seats
-    invalidSeats = set()
-    for row in range(len(nearbySeats)):
-        for col in range(len(nearbySeats[row])):
+    invalid_seats = set()
+    for row in range(len(nearby_seats)):
+        for col in range(len(nearby_seats[row])):
             invalid = True
-            seat = nearbySeats[row][col]
-            for l1, r1, l2, r2, info in validRange:
+            seat = nearby_seats[row][col]
+            for l1, r1, l2, r2, info in valid_range:
                 if l1 <= seat <= r1 or l2 <= seat <= r2:
                     invalid = False
                     break
             if invalid:
-                invalidSeats.add((row, col))
+                invalid_seats.add((row, col))
 
     # Collect possible combination
-    possibleCombination = [{} for _ in range(len(nearbySeats[0]))]
+    possible_combination = [{} for _ in range(len(nearby_seats[0]))]
     col = 0
-    while col < len(nearbySeats[0]):
-        for l1, r1, l2, r2, info in validRange:
+    while col < len(nearby_seats[0]):
+        for l1, r1, l2, r2, info in valid_range:
             invalid = False
-            for row in range(len(nearbySeats)):
-                if (row, col) in invalidSeats:
+            for row in range(len(nearby_seats)):
+                if (row, col) in invalid_seats:
                     continue
-                seat = nearbySeats[row][col]
+                seat = nearby_seats[row][col]
                 if not(l1 <= seat <= r1 or l2<= seat <= r2):
                     invalid = True
                     break
 
             if not invalid:
-                possibleCombination[col]["id"] = col
-                if "info" not in possibleCombination[col]:
-                    possibleCombination[col]["info"] = list()
-                possibleCombination[col]["info"].append(info)
+                possible_combination[col]["id"] = col
+                if "info" not in possible_combination[col]:
+                    possible_combination[col]["info"] = list()
+                possible_combination[col]["info"].append(info)
         col += 1
 
     # Guess
-    possibleCombination.sort(key=lambda x: len(x["info"]))
-    isSolved, seatCols = solve(0, possibleCombination, dict())
+    possible_combination.sort(key=lambda x: len(x["info"]))
+    is_solved, seat_cols = solve(0, possible_combination, dict())
 
-    # multiple departure seat num
+    # Multiple departure seat num
     ans = 1
-    for k, v in seatCols.items():
+    for k, v in seat_cols.items():
         if k.startswith("departure"):
-            ans *= mySeats[v]
+            ans *= my_seats[v]
     print(ans)
 
-def solve(num, possibleCombination, ans):
-    if num == len(possibleCombination):
+def solve(num, possible_combination, ans):
+    if num == len(possible_combination):
         return True, ans
-    cur = possibleCombination[num]
-    curAns = copy.deepcopy(ans)
+    cur = possible_combination[num]
+    cur_ans = copy.deepcopy(ans)
     for name in cur["info"]:
         # Already used
         if name in ans:
             continue
         # Consider as use
-        curAns[name] = cur["id"]
-        isSolved, possibleAns = solve(num+1, possibleCombination, curAns)
-        if isSolved:
-            return True, possibleAns
-        curAns.pop(name)
+        cur_ans[name] = cur["id"]
+        is_solved, possible_ans = solve(num+1, possible_combination, cur_ans)
+        if is_solved:
+            return True, possible_ans
+        cur_ans.pop(name)
     # Try all possible combination but it can't be solved
-    return False, None
+    return False, _none
 
-def extractRule(p: str) -> (int, int, int, int, str):
-    ruleInfo = p.split(":")
-    rules = ruleInfo[1].split()
+def extract_rule(p: str) -> (int, int, int, int, str):
+    rule_info = p.split(":")
+    rules = rule_info[1].split()
     lr1 = rules[0].split("-")
     lr2 = rules[2].split("-")
-    return (int(lr1[0]), int(lr1[1]), int(lr2[0]), int(lr2[1]), ruleInfo[0])
+    return (int(lr1[0]), int(lr1[1]), int(lr2[0]), int(lr2[1]), rule_info[0])
 
 if __name__ == '__main__':
 	main()

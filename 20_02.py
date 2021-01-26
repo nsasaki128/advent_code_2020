@@ -1,130 +1,130 @@
 from collections import defaultdict
 from collections import deque
-tileLen = 10
-squareLen = 12
-count = squareLen*squareLen
+TILE_LEN = 10
+SQUARE_LEN = 12
+COUNT = SQUARE_LEN*SQUARE_LEN
 
 def main():
     tiles = list()
-    tilesDict = dict()
-    edgeTileNames = dict()
-    nameEdges = dict()
+    tiles_dict = dict()
+    edge_tile_names = dict()
+    name_edges = dict()
 
-    for i in range(count):
+    for i in range(COUNT):
         name = int(input().split()[1][:-1])
-        curTile = list()
-        for _ in range(tileLen):
+        cur_tile = list()
+        for _ in range(TILE_LEN):
             tile = list(input())
-            curTile.append(tile)
-        tiles.append(curTile)
-        tilesDict[name] = curTile
-        nameEdges[name] = set()
+            cur_tile.append(tile)
+        tiles.append(cur_tile)
+        tiles_dict[name] = cur_tile
+        name_edges[name] = set()
 
         le, re = list(), list()
-        for j in range(tileLen):
-            le.append(curTile[j][0])
-            re.append(curTile[j][-1])
-        t = "".join(curTile[0])
-        b = "".join(curTile[-1])
+        for j in range(TILE_LEN):
+            le.append(cur_tile[j][0])
+            re.append(cur_tile[j][-1])
+        t = "".join(cur_tile[0])
+        b = "".join(cur_tile[-1])
         l = "".join(le)
         r = "".join(re)
-        rt = "".join(reversed(curTile[0]))
-        rb = "".join(reversed(curTile[-1]))
+        rt = "".join(reversed(cur_tile[0]))
+        rb = "".join(reversed(cur_tile[-1]))
         rl = "".join(reversed(le))
         rr = "".join(reversed(re))
-        curEdges = list()
-        curEdges.append(t)
-        curEdges.append(b)
-        curEdges.append(l)
-        curEdges.append(r)
-        curEdges.append(rt)
-        curEdges.append(rb)
-        curEdges.append(rl)
-        curEdges.append(rr)
-        for e in curEdges:
-            if e not in edgeTileNames:
-                edgeTileNames[e] = set()
-            edgeTileNames[e].add(name)
-            nameEdges[name].add(e)
+        cur_edges = list()
+        cur_edges.append(t)
+        cur_edges.append(b)
+        cur_edges.append(l)
+        cur_edges.append(r)
+        cur_edges.append(rt)
+        cur_edges.append(rb)
+        cur_edges.append(rl)
+        cur_edges.append(rr)
+        for e in cur_edges:
+            if e not in edge_tile_names:
+                edge_tile_names[e] = set()
+            edge_tile_names[e].add(name)
+            name_edges[name].add(e)
 
         input()
 
-    aloneEdges = defaultdict(int)
-    for k, vs in edgeTileNames.items():
+    alone_edges = defaultdict(int)
+    for k, vs in edge_tile_names.items():
         if len(vs) != 1:
             continue
         for v in vs:
-            aloneEdges[v] += 1
+            alone_edges[v] += 1
 
 
-    # Find left top
+    # _find left top
     lt = 0
-    for k, v in aloneEdges.items():
+    for k, v in alone_edges.items():
         if v == 4:
             lt = k
             break
 
-    fixSquare = fixTile(lt, edgeTileNames, tilesDict)
+    fix_square = fix_tile(lt, edge_tile_names, tiles_dict)
 
-    #Create Tile
-    ansTile = [["" for _ in range(squareLen*(tileLen-2))] for _ in range(squareLen*(tileLen-2))]
-    totalSharp = 0
-    for i in range(squareLen):
-        for j in range(squareLen):
-            curTile = fixSquare[i][j]
-            for k in range(1, tileLen-1):
-                for l in range(1, tileLen-1):
-                    ansTile[i*(tileLen-2)+k-1][j*(tileLen-2)+l-1] = curTile[k][l]
-                    totalSharp += 1 if curTile[k][l] == "#" else 0
+    #_create _tile
+    ans_tile = [["" for _ in range(SQUARE_LEN*(TILE_LEN-2))] for _ in range(SQUARE_LEN*(TILE_LEN-2))]
+    total_sharp = 0
+    for i in range(SQUARE_LEN):
+        for j in range(SQUARE_LEN):
+            cur_tile = fix_square[i][j]
+            for k in range(1, TILE_LEN-1):
+                for l in range(1, TILE_LEN-1):
+                    ans_tile[i*(TILE_LEN-2)+k-1][j*(TILE_LEN-2)+l-1] = cur_tile[k][l]
+                    total_sharp += 1 if cur_tile[k][l] == "#" else 0
 
-    rotateNum = 8
-    maxMonsNum = 0
-    for n in range(rotateNum):
-        monsNum = findMonsterNum(ansTile)
-        maxMonsNum = max(maxMonsNum, monsNum)
+    rotate_num = 8
+    max_mons_num = 0
+    for n in range(rotate_num):
+        mons_num = find_monster_num(ans_tile)
+        max_mons_num = max(max_mons_num, mons_num)
         if n == 4:
-            ansTile = flipTile(ansTile)
+            ans_tile = flip_tile(ans_tile)
         else:
-            ansTile = rotateTile(ansTile)
-    print(totalSharp-maxMonsNum*15)
+            ans_tile = rotate_tile(ans_tile)
+    print(total_sharp-max_mons_num*15)
 
 
-def rotateTile(tile):
-    retTile = [["" for _ in range(len(tile[0]))] for _ in range(len(tile))]
+def rotate_tile(tile):
+    ret_tile = [["" for _ in range(len(tile[0]))] for _ in range(len(tile))]
     for i in range(len(tile)):
         for j in range(len(tile[0])):
-            retTile[i][j] = tile[len(tile)-1-j][i]
-    return retTile
+            ret_tile[i][j] = tile[len(tile)-1-j][i]
+    return ret_tile
 
-def flipTile(tile):
-    retTile = [["" for _ in range(len(tile[0]))] for _ in range(len(tile))]
+def flip_tile(tile):
+    ret_tile = [["" for _ in range(len(tile[0]))] for _ in range(len(tile))]
     for i in range(len(tile)):
         for j in range(len(tile[0])):
-            retTile[i][j] = tile[len(tile)-1-i][j]
-    return retTile
+            ret_tile[i][j] = tile[len(tile)-1-i][j]
+    return ret_tile
 
 
-def fixTile(lt, edgeTileNames, tilesDict):
-    fixSquare = [[[["" for _ in range(tileLen)] for _ in range(tileLen)] for _ in range(squareLen)] for _ in range(squareLen)]
-    rotateNum = 5
+def fix_tile(lt, edge_tile_names, tiles_dict):
+    fix_square = [[[["" for _ in range(TILE_LEN)] for _ in range(TILE_LEN)] for _ in range(SQUARE_LEN)] for _ in range(SQUARE_LEN)]
+    rotate_num = 5
     seen = set()
-    nextSquareQueue = deque()
-    nextSquareQueue.append([0, 0, lt])
-    posRestriction = dict()
-    posRestriction[(0, 0)] = list()
+    next_square_queue = deque()
+    next_square_queue.append([0, 0, lt])
+    pos_restriction = dict()
+    pos_restriction[(0, 0)] = list()
 
-    while nextSquareQueue:
-        curI, curJ, curName = nextSquareQueue.popleft()
-        curRestriction = posRestriction[(curI, curJ)]
-        curSquare = tilesDict[curName]
-        curRepeat = 0
+    while next_square_queue:
+        cur_i, cur_j, cur_name = next_square_queue.popleft()
+        cur_restriction = pos_restriction[(cur_i, cur_j)]
+        cur_square = tiles_dict[cur_name]
+        cur_repeat = 0
         while True:
             le, re = list(), list()
-            for j in range(tileLen):
-                le.append(curSquare[j][0])
-                re.append(curSquare[j][-1])
-            t = "".join(curSquare[0])
-            b = "".join(curSquare[-1])
+            for j in range(TILE_LEN):
+                le.append(cur_square[j][0])
+                re.append(cur_square[j][-1])
+            t = "".join(cur_square[0])
+            b = "".join(cur_square[-1])
             l = "".join(le)
             r = "".join(re)
             edges = list()
@@ -132,65 +132,65 @@ def fixTile(lt, edgeTileNames, tilesDict):
             edges.append(b)
             edges.append(l)
             edges.append(r)
-            isRightPos = True
-            for direction, restriction in curRestriction:
+            is_right_pos = True
+            for direction, restriction in cur_restriction:
                 if edges[direction] != restriction:
-                    isRightPos = False
-            if curI == 0:
-                if len(edgeTileNames[t]) != 1:
-                    isRightPos = False
-            if curJ == 0:
-                if len(edgeTileNames[l]) != 1:
-                    isRightPos = False
-            if curI == squareLen-1:
-                if len(edgeTileNames[b]) != 1:
-                    isRightPos = False
-            if curJ == squareLen-1:
-                if len(edgeTileNames[r]) != 1:
-                    isRightPos = False
+                    is_right_pos = False
+            if cur_i == 0:
+                if len(edge_tile_names[t]) != 1:
+                    is_right_pos = False
+            if cur_j == 0:
+                if len(edge_tile_names[l]) != 1:
+                    is_right_pos = False
+            if cur_i == SQUARE_LEN-1:
+                if len(edge_tile_names[b]) != 1:
+                    is_right_pos = False
+            if cur_j == SQUARE_LEN-1:
+                if len(edge_tile_names[r]) != 1:
+                    is_right_pos = False
 
-            if isRightPos:
-                fixSquare[curI][curJ] = curSquare
-                seen.add(curName)
-                if curI+1 != squareLen:
-                    for v in edgeTileNames[b]:
+            if is_right_pos:
+                fix_square[cur_i][cur_j] = cur_square
+                seen.add(cur_name)
+                if cur_i+1 != SQUARE_LEN:
+                    for v in edge_tile_names[b]:
                         if v in seen:
                             continue
-                        if (curI+1, curJ) not in posRestriction:
-                            nextSquareQueue.append([curI+1, curJ, v])
-                            posRestriction[(curI+1, curJ)] = list()
-                        posRestriction[(curI+1, curJ)].append([0, b])
-                if curJ+1 != squareLen:
-                    for v in edgeTileNames[r]:
+                        if (cur_i+1, cur_j) not in pos_restriction:
+                            next_square_queue.append([cur_i+1, cur_j, v])
+                            pos_restriction[(cur_i+1, cur_j)] = list()
+                        pos_restriction[(cur_i+1, cur_j)].append([0, b])
+                if cur_j+1 != SQUARE_LEN:
+                    for v in edge_tile_names[r]:
                         if v in seen:
                             continue
-                        if (curI, curJ+1) not in posRestriction:
-                            nextSquareQueue.append([curI, curJ+1, v])
-                            posRestriction[(curI, curJ+1)] = list()
-                        posRestriction[(curI, curJ+1)].append([2, r])
+                        if (cur_i, cur_j+1) not in pos_restriction:
+                            next_square_queue.append([cur_i, cur_j+1, v])
+                            pos_restriction[(cur_i, cur_j+1)] = list()
+                        pos_restriction[(cur_i, cur_j+1)].append([2, r])
                 break
-            curRepeat += 1
-            if curRepeat == rotateNum:
-                curSquare = flipTile(curSquare)
+            cur_repeat += 1
+            if cur_repeat == rotate_num:
+                cur_square = flip_tile(cur_square)
                 continue
-            curSquare = rotateTile(curSquare)
+            cur_square = rotate_tile(cur_square)
 
-    return fixSquare
-
-
-monster = [(0, 18), (1, 0), (2, 1), (2, 4), (1, 5), (1, 6), (2, 7), (2, 10), (1, 11), (1, 12), (2, 13), (2, 16), (1, 17), (1, 18), (1,19)]
-monsHeight = 20
-monsWidth = 3
-def findMonsterNum(tile):
-    monsNum = 0
-    for i in range(len(tile)-monsWidth):
-        for j in range(len(tile)-monsHeight):
-            monsNum += 1 if findMonster(tile, i, j) else 0
-    return monsNum
+    return fix_square
 
 
-def findMonster(tile, i, j):
-    for di, dj in monster:
+MONSTER = [(0, 18), (1, 0), (2, 1), (2, 4), (1, 5), (1, 6), (2, 7), (2, 10), (1, 11), (1, 12), (2, 13), (2, 16), (1, 17), (1, 18), (1,19)]
+MONS_HEIGHT = 20
+MONS_WIDTH = 3
+def find_monster_num(tile):
+    mons_num = 0
+    for i in range(len(tile)-MONS_WIDTH):
+        for j in range(len(tile)-MONS_HEIGHT):
+            mons_num += 1 if find_monster(tile, i, j) else 0
+    return mons_num
+
+
+def find_monster(tile, i, j):
+    for di, dj in MONSTER:
         if tile[i+di][j+dj] != "#":
             return False
     return True
